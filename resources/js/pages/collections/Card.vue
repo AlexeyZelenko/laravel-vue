@@ -13,8 +13,8 @@
             <p v-if="collection.description" class="text-gray-600 text-sm mb-4 line-clamp-2">
                 {{ collection.description }}
             </p>
-            <div class="flex justify-between items-center">
-                <div class="text-xs text-gray-500">
+            <div class="flex flex-col justify-start items-start">
+                <div class="text-xs text-gray-500 mb-2">
                     {{ itemCount }} элемент{{ itemCount === 1 ? '' : itemCount > 1 && itemCount < 5 ? 'а' : 'ов' }}
                 </div>
                 <Link :href="route('collections.show', collection.slug)" class="inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-800">
@@ -28,9 +28,9 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { computed } from 'vue';
+import {defineProps, ref, computed, onMounted} from 'vue';
 
 const props = defineProps({
     collection: {
@@ -39,7 +39,37 @@ const props = defineProps({
     }
 });
 
+interface Item {
+    id: number;
+    title: string;
+    description: string;
+    image?: string | null;
+    created_at: string;
+}
+
+const items = ref<Item[]>([]);
+
+const getItemsCollection = async (collectionId: number) => {
+    try {
+        const response = await fetch(`/collections/${props.collection.id}/items`, {
+            headers: { 'Accept': 'application/json' }
+        });
+
+        if (!response.ok) throw new Error('Ошибка загрузки данных');
+
+        const data = await response.json();
+        items.value = data.items;
+        console.log(data.items);
+    } catch (error) {
+        console.error('Ошибка при загрузке элементов коллекции:', error);
+    }
+};
+
 const itemCount = computed(() => {
-    return props.collection.items?.length || 0;
+    return items.value?.length || 0;
+});
+
+onMounted(() => {
+    getItemsCollection(props.collection.id);
 });
 </script>

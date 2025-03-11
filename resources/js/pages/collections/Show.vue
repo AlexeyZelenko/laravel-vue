@@ -90,7 +90,6 @@ interface Collection {
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Collections', href: '/collections' },
-    { title: 'Collection', href: '/collections/items' },
     { title: 'Show', href: '/collections/items/show' },
 ];
 

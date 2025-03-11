@@ -3,7 +3,7 @@ import type { CarouselApi } from '@/components/ui/carousel'
 import { Card, CardContent } from '@/components/ui/card'
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
 import { watchOnce } from '@vueuse/core'
-import { ref, defineProps } from 'vue'
+import { ref, defineProps, computed, onMounted, onUnmounted } from 'vue'
 import CollectionItemCard from './ItemCard.vue'
 
 interface Item {
@@ -26,14 +26,14 @@ defineProps({
 const api = ref<CarouselApi>()
 const totalCount = ref(0)
 const current = ref(0)
+const isMobile = ref(window.innerWidth < 640)
 
 function setApi(val: CarouselApi) {
     api.value = val
 }
 
 watchOnce(api, (api) => {
-    if (!api)
-        return
+    if (!api) return
 
     totalCount.value = api.scrollSnapList().length
     current.value = api.selectedScrollSnap() + 1
@@ -42,11 +42,27 @@ watchOnce(api, (api) => {
         current.value = api.selectedScrollSnap() + 1
     })
 })
+
+// Обновление при изменении размера окна
+const updateIsMobile = () => {
+    isMobile.value = window.innerWidth < 640
+}
+
+onMounted(() => {
+    window.addEventListener('resize', updateIsMobile)
+})
+
+onUnmounted(() => {
+    window.removeEventListener('resize', updateIsMobile)
+})
 </script>
 
 <template>
-    <div class="w-full sm:w-auto">
-        <Carousel class="relative w-full max-w-xs" @init-api="setApi">
+    <div
+        style="min-width: 420px"
+        class="w-full flex flex-col justify-center items-center sm:w-auto"
+    >
+        <Carousel class="relative w-full" @init-api="setApi">
             <CarouselContent>
                 <CarouselItem v-for="(_, index) in items" :key="index">
                     <div class="p-1">
@@ -58,8 +74,8 @@ watchOnce(api, (api) => {
                     </div>
                 </CarouselItem>
             </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
+            <CarouselPrevious v-if="!isMobile" />
+            <CarouselNext v-if="!isMobile" />
         </Carousel>
 
         <div class="py-2 text-center text-sm text-muted-foreground">
