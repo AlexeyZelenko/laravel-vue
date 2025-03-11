@@ -1,16 +1,12 @@
 <template>
-    <div class="collection-item-card bg-white rounded-lg shadow-md overflow-hidden">
+    <div class="flex flex-col justify-between w-full collection-item-card h-full bg-white rounded-lg overflow-hidden">
         <div class="aspect-w-1 aspect-h-1 overflow-hidden">
-            <img v-if="item.image" :src="'/storage/' + item.image" :alt="item.title" class="object-cover w-full h-full">
-            <div v-else class="bg-gray-200 flex items-center justify-center h-full">
-                <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                </svg>
+            <div class="bg-gray-200 flex items-center justify-center h-full w-full py-2 min-h-16 text-xl text-gray-400">
+                {{ item.title }}
             </div>
         </div>
-        <div class="p-3">
-            <h4 class="text-md font-medium text-gray-800 mb-1">{{ item.title }}</h4>
-            <p v-if="item.description" class="text-gray-600 text-xs line-clamp-2">
+        <div v-if="item.description" class="flex justify-center text-gray-600 text-ms mb-6 px-4">
+            <p class="break-words whitespace-pre-line text-center word-break overflow-wrap">
                 {{ item.description }}
             </p>
         </div>
@@ -25,3 +21,10 @@ defineProps({
     }
 });
 </script>
+
+<style scoped>
+.word-break {
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+</style>

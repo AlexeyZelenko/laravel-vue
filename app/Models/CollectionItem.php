@@ -14,6 +14,8 @@ class CollectionItem extends Model
         'description',
         'image',
         'collection_id',
+        'translate_title',
+        'translate_description',
     ];
 
     public function collection()

@@ -45,11 +45,8 @@
                     </div>
                 </div>
 
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 bg-white border-b border-gray-200">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Элементы коллекции</h3>
-
-<!--                        <p class="text-blue-300">{{items}}</p>-->
+                <div class="overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 border-gray-200">
                         <div v-if="!items || items?.length === 0" class="text-center py-8">
                             <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
@@ -63,12 +60,8 @@
                             </div>
                         </div>
 
-                        <div v-else class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                            <CollectionItemCard
-                                v-for="item in items"
-                                :key="item.id"
-                                :item="item"
-                            />
+                        <div v-else class="w-full flex justify-center">
+                            <CollectionCarouselCard  :items="items" />
                         </div>
                     </div>
                 </div>
@@ -85,6 +78,7 @@ import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { defineProps, onMounted, ref } from 'vue';
 import type {BreadcrumbItem} from "@/types";
+import CollectionCarouselCard from './CollectionCarouselCard.vue';
 
 interface Collection {
     id: number;

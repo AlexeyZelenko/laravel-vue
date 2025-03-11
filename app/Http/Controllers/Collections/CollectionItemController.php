@@ -39,7 +39,9 @@ class CollectionItemController extends Controller
 
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'translate_title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'translate_description' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -51,7 +53,9 @@ class CollectionItemController extends Controller
 
         $item = CollectionItem::create([
             'title' => $validated['title'],
+            'translate_title' => $validated['translate_title'],
             'description' => $validated['description'] ?? null,
+            'translate_description' => $validated['translate_description'] ?? null,
             'image' => $imagePath,
             'collection_id' => $collection->id,
         ]);
