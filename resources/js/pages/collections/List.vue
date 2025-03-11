@@ -3,7 +3,7 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import { ref, onMounted } from 'vue';
-import {Button} from "@/components/ui/button";
+import CollectionCard from "./Card.vue";
 
 interface Collection {
     id: number;
@@ -41,25 +41,37 @@ onMounted(() => {
 </script>
 
 <template>
-    <Head title="Dashboard" />
+    <Head title="Collections" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
-        <main class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-            <div class="relative min-h-[100vh] flex-1 rounded-xl border border-sidebar-border/70 dark:border-sidebar-border md:min-h-min">
-                <ul class="flex flex-col gap-4 p-4">
-                    <li
-                        v-for="collection in collections"
-                        :key="collection.id"
-                        class="flex flex-col gap-1 p-4 border border-sidebar-border/70 dark:border-sidebar-border rounded-xl">
-                        <strong>{{ collection.name }}</strong> ({{ collection.visibility }})
-                        <div>{{ collection.description }}</div>
-                        <button>
-                            <a :href="`/collections/${collection.slug}`">details</a>
-                        </button>
-                    </li>
-                </ul>
+        <div class="py-12">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 bg-white border-b border-gray-200">
+                        <div v-if="collections.length === 0" class="text-center py-8">
+                            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                            </svg>
+                            <h3 class="mt-2 text-sm font-medium text-gray-900">У вас еще нет коллекций</h3>
+                            <p class="mt-1 text-sm text-gray-500">Начните с создания вашей первой коллекции.</p>
+                            <div class="mt-6">
+                                <Link :href="route('collections.create')" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    Создать коллекцию
+                                </Link>
+                            </div>
+                        </div>
+
+                        <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                            <CollectionCard
+                                v-for="collection in collections"
+                                :key="collection.id"
+                                :collection="collection"
+                            />
+                        </div>
+                    </div>
+                </div>
             </div>
-        </main>
+        </div>
     </AppLayout>
 </template>
 
