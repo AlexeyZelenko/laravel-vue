@@ -9,9 +9,9 @@
             </div>
         </div>
         <div class="p-4">
-            <h3 class="text-lg font-semibold text-gray-800 mb-2">{{ collection.title }}</h3>
+            <h3 class="text-lg font-semibold text-gray-800 mb-2">{{ collection?.title }}</h3>
             <p v-if="collection.description" class="text-gray-600 text-sm mb-4 line-clamp-2">
-                {{ collection.description }}
+                {{ collection?.description }}
             </p>
             <div class="flex flex-col justify-start items-start">
                 <div class="text-xs text-gray-500 mb-2">

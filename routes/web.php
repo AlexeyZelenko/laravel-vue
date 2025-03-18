@@ -27,5 +27,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/collections/{collection}/items', [CollectionItemController::class, 'index']);
 });
 
+// Fruit routes
+Route::get('fruits', function () {
+    return Inertia::render('fruits/Index');
+})->name('fruits.index');
+
+Route::get('/fruits/family/{family}', function ($family) {
+    return Inertia::render('fruits/Family', [
+        'family' => $family,
+    ]);
+})->name('fruits.family');
+
+Route::get('fruits/favorites', function () {
+    return Inertia::render('fruits/Favorites');
+})->name('fruits.favorites');
+
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
