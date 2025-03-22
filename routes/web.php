@@ -25,6 +25,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('collections/{collection:slug}/items/create', [CollectionItemController::class, 'create'])->name('collections.items.create');
     Route::post('collections/{collection:slug}/items', [CollectionItemController::class, 'store'])->name('collections.items.store');
     Route::get('/collections/{collection}/items', [CollectionItemController::class, 'index']);
+    Route::delete('/collections/items/{item}', [CollectionItemController::class, 'destroy']);
 });
 
 // Fruit routes

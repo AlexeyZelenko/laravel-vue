@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Models\Collection;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redirect;
 
 
 class CollectionItemController extends Controller
@@ -61,5 +63,28 @@ class CollectionItemController extends Controller
         ]);
 
         return redirect()->route('collections.show', $collection->slug);
+    }
+
+    public function destroy(CollectionItem $item)
+    {
+        Log::info('Attempting to delete CollectionItem with ID: ' . $item->id);
+
+        if (!$item) {
+            Log::warning('CollectionItem with ID: ' . $item->id . ' not found.');
+            return response()->json(['message' => 'Карточка не найдена'], Response::HTTP_NOT_FOUND);
+        }
+
+        try {
+            $item->delete();
+            Log::info('CollectionItem with ID: ' . $item->id . ' successfully deleted.');
+            return Redirect::back()->with('success', 'Карточка успешно удалена!'); // Перенаправление назад с сообщением
+            // Или, если вам нужно конкретное перенаправление:
+            // return Redirect::route('collections.show', ['collection' => $item->collection_id])->with('success', 'Карточка успешно удалена!');
+
+        } catch (\Exception $e) {
+            Log::error('Error deleting CollectionItem with ID: ' . $item->id . '. Error: ' . $e->getMessage());
+            return response()->json(['message' => 'Ошибка при удалении карточки: ' . $e->getMessage()],
+                Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 }

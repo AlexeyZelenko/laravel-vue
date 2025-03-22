@@ -56,4 +56,20 @@ class CollectionItemController extends Controller
 
         return redirect()->route('collections.show', $collection->slug);
     }
+
+    public function destroy(CollectionItem $item)
+    {
+        if (!$item) {
+            Log::warning('CollectionItem with ID: ' . $item->id . ' not found.');
+            return response()->json(['message' => 'Карточка не найдена'], Response::HTTP_NOT_FOUND);
+        }
+
+        try {
+            $item->delete();
+            return response()->json(['message' => 'Карточка успешно удалена']);
+        } catch (\Exception $e) {
+            Log::error('Error deleting CollectionItem with ID: ' . $item->id . '. Error: ' . $e->getMessage());
+            return response()->json(['message' => 'Ошибка при удалении карточки: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }

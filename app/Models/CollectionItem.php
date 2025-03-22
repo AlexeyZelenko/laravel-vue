@@ -22,9 +22,4 @@ class CollectionItem extends Model
     {
         return $this->belongsTo(Collection::class);
     }
-
-    public function items()
-    {
-        return $this->hasMany(CollectionItem::class, 'collection_id');
-    }
 }
