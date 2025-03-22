@@ -5,7 +5,9 @@
         <template #header>
             <div class="flex justify-between items-center">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ collection?.name }}</h2>
-                <Link :href="route('collections.items.create', collection?.slug)" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                <Link
+                    :href="route('collections.items.create', collection?.slug)"
+                    class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
                     Добавить элемент
                 </Link>
             </div>
@@ -14,7 +16,7 @@
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
-                    <div class="p-6 bg-white border-b border-gray-200">
+                    <div class="p-6 bg-violet-300">
                         <div class="flex flex-col md:flex-row gap-6">
                             <div class="md:w-1/3">
                                 <div class="rounded-lg overflow-hidden shadow-md">
@@ -36,7 +38,9 @@
                                         items?.length > 1 && items?.length < 5 ? 'а' : 'ов' }}</span>
                                 </div>
                                 <div class="mt-6">
-                                    <Link :href="route('collections.items.create', collection)" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    <Link
+                                        :href="route('collections.items.create', collection)"
+                                        class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                         Добавить элемент
                                     </Link>
                                 </div>
